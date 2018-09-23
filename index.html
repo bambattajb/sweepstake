@@ -46,5 +46,82 @@
 <body>
 <div id="sweepstake"></div>
 <script src="sweepstake.js"></script>
+<script>
+/**
+ * Setup HTML
+ */
+let container = document.getElementById('sweepstake');
+let sweepstake = new Sweepstake();
+
+let containerParticipants = document.createElement('DIV');
+  containerParticipants.setAttribute('id', 'containerParticipants');
+
+let containerOutput = document.createElement('DIV');
+  containerOutput.setAttribute('id', 'containerOutput');
+
+let generateBtn = document.createElement('BUTTON');
+  generateBtn.setAttribute('id', 'generateBtn');
+  generateBtn.textContent = 'Generate output';
+
+let addParticipantLabel = document.createElement('LABEL');
+  addParticipantLabel.setAttribute('for', 'addParticipantInput');
+  addParticipantLabel.textContent = 'Add Participant';
+
+let addParticipantInput = document.createElement('INPUT');
+  addParticipantInput.setAttribute('type', 'text');
+  addParticipantInput.setAttribute('id', 'addParticipantInput');
+
+let addParticipantBtn = document.createElement('BUTTON');
+  addParticipantBtn.setAttribute('id', 'addParticipantBtn');
+  addParticipantBtn.textContent = 'Submit';
+
+/**
+ * Deploy HTML
+ */
+container.appendChild(containerParticipants);
+container.appendChild(containerOutput);
+container.appendChild(generateBtn);
+container.appendChild(addParticipantLabel);
+container.appendChild(addParticipantInput);
+container.appendChild(addParticipantBtn);
+
+/**
+ * Add Participants
+ */
+addParticipantBtn.addEventListener('click', function(ev) {
+    let participantName = addParticipantInput.value;
+    let participants = sweepstake.addParticipant(participantName);
+    addParticipantInput.value = '';
+
+    let participantsHTML = '<h2>Participants</h2>';
+      participantsHTML += '<ul>';
+    for(let i = 0; i<participants.length; i++) {
+      participantsHTML += '<li>' + participants[i] + '</li>';
+    }
+    participantsHTML += '</ul>';
+
+    containerParticipants.innerHTML = participantsHTML;
+    containerOutput.innerHTML = '';
+});
+
+/**
+ * Print result
+ */
+generateBtn.addEventListener('click', function(ev) {
+ let results = sweepstake.generateResults(),
+  outputHTML = '<h2>Sweepstake Results</h2>';
+
+  Object.keys(results).forEach(function(part, index) {
+    outputHTML += '<p><b>' + part + '</b></p>';
+    outputHTML += '<ul>';
+    this[part].forEach(function(result) {
+        outputHTML += '<li>' + result + '</li>';
+    });
+    outputHTML += '</ul>';
+  }, results);
+
+   containerOutput.innerHTML = outputHTML;
+});
+</script>
 </body>
 </html>
