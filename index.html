@@ -53,6 +53,18 @@
 let container = document.getElementById('sweepstake');
 let sweepstake = new Sweepstake();
 
+/*
+// Change default contenders
+sweepstake.contender1 = "Oleksandr Usyk";
+sweepstake.contender2 = "Tony Bellew";
+// Change default win options
+sweepstake.winBecause = [
+  "Win by knockout in first round",
+  "Win by knockout in second rount",
+  "Win by points"
+];
+*/
+
 let containerParticipants = document.createElement('DIV');
   containerParticipants.setAttribute('id', 'containerParticipants');
 
@@ -90,7 +102,13 @@ container.appendChild(addParticipantBtn);
  */
 addParticipantBtn.addEventListener('click', function(ev) {
     let participantName = addParticipantInput.value;
-    let participants = sweepstake.addParticipant(participantName);
+    let addParticipant = sweepstake.addParticipant(participantName);
+    if(!addParticipant) {
+	containerParticipants.append('ERROR : Invalid Name');
+	return false;
+    }
+
+    let participants = addParticipant;
     addParticipantInput.value = '';
 
     let participantsHTML = '<h2>Participants</h2>';

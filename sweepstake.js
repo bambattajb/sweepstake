@@ -28,6 +28,10 @@ let Sweepstake = function() {
     }
 
     $this.addParticipant = function(name) {
+	if(name=='') {
+	  return false;	
+	}
+
         $this.participants.push(name);
         return $this.participants;
     }
